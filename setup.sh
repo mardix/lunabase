@@ -1,7 +1,7 @@
 # --------------------------------------------------------------------------
 # Lunabase setup
 #
-# curl https://raw.githubusercontent.com/mardix/lunabase/master/setup.sh > lunabase-setup.sh
+# curl https://raw.githubusercontent.com/mardix/lunabase/master/setup.sh > setup.sh
 # chmod 755 setup.sh
 # ./setup.sh
 #--------------------------------------------------------------------------
