@@ -56,4 +56,10 @@ echo 'deb https://download.arangodb.com/arangodb37/DEBIAN/ /' | sudo tee /etc/ap
 sudo apt-get install apt-transport-https
 sudo apt-get update
 sudo apt-get install arangodb3=3.7.3-1
-
+sudo systemctl start arangodb3
+sudo systemctl enable arangodb3
+sed -i 's/endpoint = tcp:\/\/127.0.0.1:8529/endpoint = tcp:\/\/0.0.0.0:8529/g' /etc/arangodb3/arangod.conf
+sudo systemctl restart arangodb3
+echo 
+echo "Lunabase installation completed!"
+echo
