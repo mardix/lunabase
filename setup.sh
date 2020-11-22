@@ -60,6 +60,16 @@ sudo systemctl start arangodb3
 sudo systemctl enable arangodb3
 sed -i 's/endpoint = tcp:\/\/127.0.0.1:8529/endpoint = tcp:\/\/0.0.0.0:8529/g' /etc/arangodb3/arangod.conf
 sudo systemctl restart arangodb3
+
+# Install Typesense
 echo 
+echo "--------------------------------------------------------------------------"
+echo "================ installing Typesense "
+echo 
+curl https://dl.typesense.org/releases/0.16.1/typesense-server-0.16.1-amd64.deb -o typesense-server.deb
+apt install -y ./typesense-server.deb
+sudo systemctl enable typesense-server
+sudo systemctl restart typesense-server
+echo
 echo "Lunabase installation completed!"
 echo
