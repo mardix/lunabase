@@ -38,6 +38,7 @@ This will install:
 - Boxie
 - Redis
 - ArangoDB
+- Typesense
 
 (This is a work in progress)
 
