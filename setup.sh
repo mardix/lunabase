@@ -77,18 +77,18 @@ echo
 echo "--------------------------------------------------------------------------"
 echo "================ Setting up backup system "
 echo 
-echo "getting Timkay's AWS script..."
+echo "installing awscli..."
 curl https://raw.githubusercontent.com/timkay/aws/master/aws -o aws
 chmod +x aws
+mv aws /usr/bin
 touch ~/.awssecret
 chmod go-rwx ~/.awssecret
 echo "getting backup.sh..."
 curl https://raw.githubusercontent.com/mardix/lunabase-server/master/backup.sh > /etc/lunabase-server-backup.sh
 chmod 755 /etc/lunabase-server-backup.sh
 echo "getting cron file..."
-curl https://raw.githubusercontent.com/mardix/lunabase-server/master/cron.txt > /etc/lunabase-server-cron.txt
-rm -rf /etc/cron.d/lunabase-server-cron.txt
-ln -s /etc/lunabase-server-cron.txt /etc/cron.d/
+rm -rf /etc/cron.d/lunabase-server
+curl https://raw.githubusercontent.com/mardix/lunabase-server/master/cron > /etc/cron.d/lunabase-server
 echo
 echo "Lunabase installation completed!"
 echo
