@@ -11,6 +11,7 @@ It is intended to provided an opensource application, but will still rely on Ope
 
 - Document Store: ArangoDB
 - Key/Value Store: Redis 
+- Search: Typesense
 - Storage: AWS S3
 - Authentication: Firebase
 
