@@ -34,11 +34,11 @@ typesense:/var/lib/typesense
 ################################################################
 APP_NAME="Lunabase"
 # Backup time
-NOW=`date +%H00`
-# Datetime for manual backup
-DT=`date +%Y%m%d%H00`
+DT_NOW=`date +%H00`
+# Datetime for archive backup
+DT_ARCHIVE=`date +%Y%m%d%H00`
 # Daily name, from 0=sunday, 6=saturday -> daily.0
-DAILY=$(date +"%w")
+DT_DAILY=$(date +"%H00")
 
 
 echo 
@@ -53,11 +53,11 @@ do
   BACKUP_NAME=$NAME
   BACKUP_FILENAME=$BACKUP_NAME.tar.gz
   BACKUP_FILE=/tmp/backup_$BACKUP_FILENAME
-  BACKUP_OBJECT=weekday$DAILY/$BACKUP_FILENAME
+  BACKUP_OBJECT=daily/$DT_DAILY/$BACKUP_FILENAME
   
   # archive
   if [ "$1" ]; then
-      BACKUP_OBJECT=archive/$DT/$BACKUP_NAME.tar.gz
+      BACKUP_OBJECT=archive/$DT_ARCHIVE/$BACKUP_FILENAME
   fi
   
   echo "> $BACKUP_NAME"
