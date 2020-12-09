@@ -1,5 +1,5 @@
 # --------------------------------------------------------------------------
-# Lunabase setup
+# Lunabase Server setup
 #
 # curl https://raw.githubusercontent.com/mardix/lunabase-server/master/setup.sh > lunabase-server-setup.sh
 # chmod 755 lunabase-server-setup.sh
@@ -8,8 +8,14 @@
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
 
-echo "--------------------------------------------------------------------------"
-echo "Lunabase Platform installation ..."
+# CONFIGURATION
+# Configure packages version in case 
+ARANGODB_VERSION=3.7.2-1
+TYPESENSE_VERSION=0.17.0
+
+#--------------------------------------------------------------------------
+echo "------------------------------------------------"
+echo "::Lunabase server setup::"
 echo
 
 apt-get update
@@ -18,7 +24,7 @@ apt-get update
 
 # Install Boxie
 echo 
-echo "================ installing Boxie ..."
+echo "=======>>> installing Boxie ..."
 echo 
 curl https://raw.githubusercontent.com/mardix/boxie/master/install.sh > boxie-install.sh
 chmod 755 boxie-install.sh
@@ -26,8 +32,8 @@ chmod 755 boxie-install.sh
 
 # Install Redis
 echo 
-echo "--------------------------------------------------------------------------"
-echo "================ installing Redis ..."
+echo "------------------------------------------------"
+echo "=======>>> installing Redis ..."
 echo 
 while true; do
     read -s -p "Enter Redis Password: " password
@@ -47,15 +53,15 @@ sudo systemctl restart redis.service
 
 # Install ArangoDB
 echo 
-echo "--------------------------------------------------------------------------"
-echo "================ installing ArangoDB "
+echo "------------------------------------------------"
+echo "=======>>> installing ArangoDB "
 echo 
 curl -OL https://download.arangodb.com/arangodb37/DEBIAN/Release.key
 sudo apt-key add - < Release.key
 echo 'deb https://download.arangodb.com/arangodb37/DEBIAN/ /' | sudo tee /etc/apt/sources.list.d/arangodb.list
 sudo apt-get install apt-transport-https
 sudo apt-get update
-sudo apt-get install arangodb3=3.7.3-1
+sudo apt-get install arangodb3=$ARANGODB_VERSION
 sudo systemctl start arangodb3
 sudo systemctl enable arangodb3
 sed -i 's/endpoint = tcp:\/\/127.0.0.1:8529/endpoint = tcp:\/\/0.0.0.0:8529/g' /etc/arangodb3/arangod.conf
@@ -63,10 +69,10 @@ sudo systemctl restart arangodb3
 
 # Install Typesense
 echo 
-echo "--------------------------------------------------------------------------"
-echo "================ installing Typesense "
+echo "------------------------------------------------"
+echo "=======>>> installing Typesense "
 echo 
-curl https://dl.typesense.org/releases/0.16.1/typesense-server-0.16.1-amd64.deb -o typesense-server.deb
+curl https://dl.typesense.org/releases/$TYPESENSE_VERSION/typesense-server-$TYPESENSE_VERSION-amd64.deb -o typesense-server.deb
 apt install -y ./typesense-server.deb
 sudo systemctl enable typesense-server
 sudo systemctl restart typesense-server
@@ -74,22 +80,27 @@ sudo systemctl restart typesense-server
 # Setup backup
 echo
 echo 
-echo "--------------------------------------------------------------------------"
-echo "================ Setting up backup system "
+echo "------------------------------------------------"
+echo "=======>>> setting up backup system "
 echo 
-echo "installing awscli..."
+echo " - setting awscli..."
 curl https://raw.githubusercontent.com/timkay/aws/master/aws -o aws
 chmod +x aws
 mv aws /usr/bin
 touch ~/.awssecret
 chmod go-rwx ~/.awssecret
-echo "getting backup.sh..."
+echo
+echo " - setting backup.sh..."
 curl https://raw.githubusercontent.com/mardix/lunabase-server/master/backup.sh > /etc/lunabase-server-backup.sh
 chmod 755 /etc/lunabase-server-backup.sh
-echo "getting cron file..."
+echo
+echo " - setting cron file..."
 rm -rf /etc/cron.d/lunabase-server
 curl https://raw.githubusercontent.com/mardix/lunabase-server/master/cron > /etc/cron.d/lunabase-server
 echo
-echo "Lunabase installation completed!"
 echo
 
+echo "::Lunabase server setup completed::"
+echo
+echo "------------------------------------------------"
+# EOF
