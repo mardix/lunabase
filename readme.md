@@ -1,4 +1,7 @@
-# Lunabase
+# Lunabase-server
+
+Lunabase-server is the server install for Lunabase.
+
 
 (This is a work in progress)
 
@@ -6,8 +9,8 @@
 
 It is intended to provided an opensource application, but will still rely on Opensouce and other technology to work:
 
-- Database: ArangoDB
-- Caching: Redis 
+- Document Store: ArangoDB
+- Key/Value Store: Redis 
 - Storage: AWS S3
 - Authentication: Firebase
 
@@ -27,9 +30,9 @@ Copy the code below that will download and install **Lunabase**
 
 ```sh
 
-curl https://raw.githubusercontent.com/mardix/lunabase/master/setup.sh > setup.sh
-chmod 755 setup.sh
-./setup.sh
+curl https://raw.githubusercontent.com/mardix/lunabase-server/master/setup.sh > lunabase-server-setup.sh
+chmod 755 lunabase-server-setup.sh
+./lunabase-server-setup.sh
 
 ```
 
@@ -41,6 +44,8 @@ This will install:
 - Typesense
 
 (This is a work in progress)
+
+#### 3. Setup Cron Backup
 
 ---
 

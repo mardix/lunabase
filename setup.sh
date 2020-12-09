@@ -1,9 +1,9 @@
 # --------------------------------------------------------------------------
 # Lunabase setup
 #
-# curl https://raw.githubusercontent.com/mardix/lunabase/master/setup.sh > setup.sh
-# chmod 755 setup.sh
-# ./setup.sh
+# curl https://raw.githubusercontent.com/mardix/lunabase-server/master/setup.sh > lunabase-server-setup.sh
+# chmod 755 lunabase-server-setup.sh
+# ./lunabase-server-setup.sh
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
 #--------------------------------------------------------------------------
@@ -20,9 +20,9 @@ apt-get update
 echo 
 echo "================ installing Boxie ..."
 echo 
-curl https://raw.githubusercontent.com/mardix/boxie/master/install.sh > install.sh
-chmod 755 install.sh
-./install.sh
+curl https://raw.githubusercontent.com/mardix/boxie/master/install.sh > boxie-install.sh
+chmod 755 boxie-install.sh
+./boxie-install.sh
 
 # Install Redis
 echo 
@@ -70,6 +70,26 @@ curl https://dl.typesense.org/releases/0.16.1/typesense-server-0.16.1-amd64.deb 
 apt install -y ./typesense-server.deb
 sudo systemctl enable typesense-server
 sudo systemctl restart typesense-server
+
+# Setup backup
+echo
+echo 
+echo "--------------------------------------------------------------------------"
+echo "================ Setting up backup system "
+echo 
+echo "getting Timkay's AWS script..."
+curl https://raw.githubusercontent.com/timkay/aws/master/aws -o aws
+chmod +x aws
+touch ~/.awssecret
+chmod go-rwx ~/.awssecret
+echo "getting backup.sh..."
+curl https://raw.githubusercontent.com/mardix/lunabase-server/master/backup.sh > /etc/lunabase-server-backup.sh
+chmod 755 /etc/lunabase-server-backup.sh
+echo "getting cron file..."
+curl https://raw.githubusercontent.com/mardix/lunabase-server/master/cron.txt > /etc/lunabase-server-cron.txt
+rm -rf /etc/cron.d/lunabase-server-cron.txt
+ln -s /etc/lunabase-server-cron.txt /etc/cron.d/
 echo
 echo "Lunabase installation completed!"
 echo
+
